@@ -23,18 +23,12 @@
 	<body>
 
 		<!-- Menu gauche -->
-	<nav class="right-menu" id="rightMenu">
+	<nav class="left-menu">
 			<ul>
-				<li><a href="https://opxamx.github.io/Annuaire-Streaming/">
-						<h3>FRANCAIS</h3>Films & TVSeries
-					</a></li>
-				<li><a href="https://opxamx.github.io/Annuaire-Streaming/english.html">
-						<h3>ENGLISH</h3>Movie & TVShows
-					</a></li>
-				<li><a href="https://opxamx.github.io/Annuaire-Streaming/livetv.html">
-						<h3>LIVE.TV</h3>Boxing & UFC
-					</a></li>
-				<!--		<li><a href="#">Section 4</a></li> -->
+				<li><a href="#"><i class="fas fa-home"></i><span>Accueil</span></a></li>
+				<li><a href="#"><i class="fas fa-user"></i><span>Profil</span></a></li>
+				<li><a href="#"><i class="fas fa-cog"></i><span>Paramètres</span></a></li>
+				<li><a href="#"><i class="fas fa-envelope"></i><span>Contact</span></a></li>
 			</ul>
 		</nav>
 
