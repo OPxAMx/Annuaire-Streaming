@@ -1,166 +1,445 @@
 <!DOCTYPE html>
-<html lang="en">
-
-  <head>
-    <meta charset="UTF-8">
-    <title>STREAMING EN FRANCAIS</title>
-    <link rel="stylesheet" href="./style.css">
-
-  </head>
-    
-  <body>
-  <html>
 <html lang="fr">
-
 <head>
-	<meta charset="UTF-8">
-	<title>Bienvenue dans le futur</title>
-	<link rel="stylesheet" href="./style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STREAMING EN FRANÇAIS - Futuriste 3D</title>
 
+    <!-- Font Awesome & Police futuriste -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
+
+    <!-- Three.js via import maps (dernière version 2026) -->
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://cdn.jsdelivr.net/npm/three@0.182.0/build/three.module.js",
+            "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.182.0/examples/jsm/"
+        }
+    }
+    </script>
+
+    <style>
+        :root {
+            --bg: #0a0e17;
+            --neon-cyan: #00ffff;
+            --neon-pink: #ff00ff;
+            --neon-green: #39ff14;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Orbitron', sans-serif;
+            background: var(--bg);
+            color: #fff;
+            min-height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Canvas 3D en fond */
+        #three-canvas {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 1;
+        }
+
+        /* Tout le contenu HTML au-dessus du canvas */
+        header, nav, main, footer {
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Menu gauche */
+        .left-menu {
+            position: fixed;
+            top: 0; left: 0;
+            height: 100%;
+            width: 60px;
+            background: rgba(10,14,23,0.9);
+            transition: width 0.5s ease;
+            overflow: hidden;
+            box-shadow: 10px 0 30px rgba(255,0,255,0.2);
+            z-index: 998;
+        }
+
+        .left-menu:hover { width: 250px; }
+
+        .left-menu ul { list-style: none; padding-top: 100px; }
+        .left-menu li { padding: 20px 8px; white-space: nowrap; }
+        .left-menu a { color: #fff; text-decoration: none; font-size: 1.2rem; display: flex; align-items: center; }
+        .left-menu i { font-size: 1.8rem; margin-right: 20px; min-width: 44px; text-align: center; color: var(--neon-pink); }
+        .left-menu span { opacity: 0; transition: opacity 0.4s ease 0.1s; }
+        .left-menu:hover span { opacity: 1; }
+
+        /* Burger menu droit */
+        header {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .hamburger {
+            width: 50px; height: 50px;
+            background: rgba(0,0,0,0.5);
+            border: 2px solid var(--neon-cyan);
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 0 20px var(--neon-cyan);
+            transition: all 0.4s ease;
+        }
+
+        .hamburger span {
+            width: 30px; height: 3px;
+            background: var(--neon-cyan);
+            margin: 4px 0;
+            transition: all 0.4s ease;
+            box-shadow: 0 0 10px var(--neon-cyan);
+        }
+
+        .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+        .hamburger.active span:nth-child(2) { opacity: 0; }
+        .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(7px, -6px); }
+
+        /* Menu droit */
+        .right-menu {
+            position: fixed;
+            top: 0; right: -300px;
+            width: 300px; height: 100%;
+            background: rgba(10,14,23,0.95);
+            backdrop-filter: blur(15px);
+            transition: right 0.6s ease;
+            z-index: 999;
+            padding: 80px 20px 20px;
+            box-shadow: -10px 0 50px rgba(0,255,255,0.4);
+        }
+
+        .right-menu.active { right: 0; }
+
+        .right-menu ul { list-style: none; }
+        .right-menu li { margin: 30px 0; }
+        .right-menu a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.5rem;
+            text-shadow: 0 0 10px var(--neon-cyan);
+            display: block;
+        }
+        .right-menu h3 { color: var(--neon-green); margin-bottom: 5px; }
+        .right-menu a:hover { color: var(--neon-cyan); text-shadow: 0 0 20px var(--neon-cyan); }
+
+        /* Contenu principal */
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 100px 20px;
+            text-align: center;
+            min-height: 100vh;
+        }
+
+        h1 {
+            font-size: 4.5rem;
+            color: var(--neon-cyan);
+            text-shadow: 0 0 30px var(--neon-cyan);
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            color: var(--neon-green);
+            text-shadow: 0 0 20px var(--neon-green);
+            margin: 20px 0;
+        }
+
+        /* Footer icônes */
+        footer {
+            position: fixed;
+            bottom: 30px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+            z-index: 10;
+            padding: 0 20px;
+        }
+
+        .footer-icon {
+            width: 70px; height: 70px;
+            background: rgba(0,0,0,0.6);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.6), 0 0 25px var(--neon-cyan);
+            transition: all 0.6s ease;
+        }
+
+        .footer-icon:hover {
+            transform: translateY(-15px) scale(1.2);
+            box-shadow: 0 0 60px var(--neon-cyan), 0 0 120px var(--neon-cyan);
+        }
+
+        .footer-icon i {
+            font-size: 2.2rem;
+            color: var(--neon-cyan);
+            text-shadow: 0 0 15px var(--neon-cyan);
+        }
+
+        .preview-card {
+            position: absolute;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%) scale(0.8);
+            width: 320px;
+            background: rgba(10,14,23,0.95);
+            border: 2px solid var(--neon-cyan);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 0 40px rgba(0,255,255,0.4);
+            backdrop-filter: blur(10px);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.6s ease;
+            text-align: center;
+        }
+
+        .footer-icon:hover .preview-card {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) scale(1);
+        }
+
+        .preview-card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            box-shadow: 0 0 25px var(--neon-cyan);
+        }
+    </style>
 </head>
-
 <body>
-	<html>
-	<html lang="fr">
 
-	<head>
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>Landing Page Futuriste</title>
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-		<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
-	</head>
+    <!-- Canvas Three.js pour le fond 3D -->
+    <canvas id="three-canvas"></canvas>
 
-	<body>
+    <!-- Menu gauche -->
+    <nav class="left-menu">
+        <ul>
+            <li><a href="#"><i class="fas fa-home"></i><span>Accueil</span></a></li>
+            <li><a href="#"><i class="fas fa-user"></i><span>Profil</span></a></li>
+            <li><a href="#"><i class="fas fa-cog"></i><span>Paramètres</span></a></li>
+            <li><a href="#"><i class="fas fa-envelope"></i><span>Contact</span></a></li>
+        </ul>
+    </nav>
 
-		<!-- Menu gauche -->
-		<nav class="left-menu">
-			<ul>
-				<li><a href="#"><i class="fas fa-home"></i><span>Accueil</span></a></li>
-				<li><a href="#"><i class="fas fa-user"></i><span>Profil</span></a></li>
-				<li><a href="#"><i class="fas fa-cog"></i><span>Paramètres</span></a></li>
-				<li><a href="#"><i class="fas fa-envelope"></i><span>Contact</span></a></li>
-			</ul>
-		</nav>
+    <!-- Burger + Menu droit -->
+    <header>
+        <div class="hamburger" id="hamburger">
+            <span></span><span></span><span></span>
+        </div>
+    </header>
 
-		<!-- Burger menu droit -->
-		<header>
-			<div class="hamburger" id="hamburger">
-				<span></span>
-				<span></span>
-				<span></span>
-			</div>
-		</header>
+    <nav class="right-menu" id="rightMenu">
+        <ul>
+            <li><a href="/index.html"><h3>FRANÇAIS</h3>Films & Séries TV</a></li>
+            <li><a href="/english.html"><h3>ANGLAIS</h3>Films & Séries TV</a></li>
+            <li><a href="/livetv.html"><h3>LIVE TV</h3>Boxe & UFC</a></li>
+        </ul>
+    </nav>
 
-		<!-- Menu droit -->
-		<nav class="right-menu" id="rightMenu">
-			<ul>
-				<li><a href="/index.html">
-						<h3>FRANCAIS</h3>Films & TVSeries
-					</a></li>
-				<li><a href="/english.html">
-						<h3>ENGLISH</h3>Movie & TVShows
-					</a></li>
-				<li><a href="/livetv.html">
-						<h3>LIVE.TV</h3>Boxing & UFC
-					</a></li>
-				<!--		<li><a href="#">Section 4</a></li> -->
-			</ul>
-		</nav>
+    <!-- Contenu principal -->
+    <main>
+        <h1>STREAMING EN FRANÇAIS</h1>
+        <h2>7 SITES DE STREAMING EN FRANÇAIS</h2>
+        <p>Par Alain Miller</p>
+    </main>
 
-		<main>
-			<h1>STREAMING EN FRANCAIS</h1>
-			<p>
-			<h2>7 SITES DE STREAMING EN FRANCAIS </h2>
-			</p>
-			<p>Par Alain Miller</p>
-		</main>
+    <!-- Footer avec vos 8 sites -->
+    <footer>
+        <div class="footer-icon" onclick="window.location.href='https://dpstream.fyi'">
+            <i class="fas fa-star"></i>
+            <div class="preview-card">
+                <img src="https://screenshot.xranks.com/filmoflix.rip-484ae5d047a487bc375a5d5dad44ccf77c8d4753992eb263f39005912d333992.webp" alt="DPStream">
+                <h3>DPStream</h3>
+                <p>Films & Séries TV</p>
+            </div>
+        </div>
 
-		<!-- Footer avec cartes au hover -->
-		<footer>
-			<div class="footer-icon" onclick="window.location.href='https://dpstream.fyi'">
-				<i class="fas fa-star"></i>
-				<div class="preview-card">
-					<img src="https://screenshot.xranks.com/filmoflix.rip-484ae5d047a487bc375a5d5dad44ccf77c8d4753992eb263f39005912d333992.webp" alt="DPStream">
-					<h3>DPStream</h3>
-					<p>Films & TVSeries</p>
-				</div>
-			</div>
+        <div class="footer-icon" onclick="window.location.href='https://www.hdss.art'">
+            <i class="fas fa-star"></i>
+            <div class="preview-card">
+                <img src="https://screenshot.xranks.com/filmoflix.rip-484ae5d047a487bc375a5d5dad44ccf77c8d4753992eb263f39005912d333992.webp" alt="HDSS">
+                <h3>HDSS</h3>
+                <p>Films & Séries TV</p>
+            </div>
+        </div>
 
-			<div class="footer-icon" onclick="window.location.href='https://www.hdss.art'">
-				<i class="fas fa-star"></i>
-				<div class="preview-card">
-					<img src="https://screenshot.xranks.com/filmoflix.rip-484ae5d047a487bc375a5d5dad44ccf77c8d4753992eb263f39005912d333992.webp" alt="DPStream">
-					<h3>HDSS</h3>
-					<p>Films & TVSeries</p>
-				</div>
-			</div>
+        <div class="footer-icon" onclick="window.location.href='https://www.papadustream.rip'">
+            <i class="fas fa-star"></i>
+            <div class="preview-card">
+                <img src="https://antbase.fr/wp-content/uploads/2025/06/Capture-decran-2025-06-04-a-15.34.37.webp" alt="Papadustream">
+                <h3>Papadustream</h3>
+                <p>+10 000 Séries TV</p>
+            </div>
+        </div>
 
-			<div class="footer-icon" onclick="window.location.href='https://www.papadustream.rip'">
-				<i class="fas fa-star"></i>
-				<div class="preview-card">
-					<img src="https://antbase.fr/wp-content/uploads/2025/06/Capture-decran-2025-06-04-a-15.34.37.webp" alt="Papadustream">
-					<h3>Papadustream</h3>
-					<p>TVSeries +10 000</p>
-				</div>
-			</div>
+        <div class="footer-icon" onclick="window.location.href='https://monstream.bz'">
+            <i class="fas fa-star"></i>
+            <div class="preview-card">
+                <img src="https://screenshot.xranks.com/voirfilms.bz-0ece68c3781734c10e7959f4d3ad234df118dc5f4fe21c1e56851da841e114cf.webp" alt="Monstream">
+                <h3>Monstream</h3>
+                <p>Films & Séries TV</p>
+            </div>
+        </div>
 
-			<div class="footer-icon" onclick="window.location.href='https://monstream.bz'">
-				<i class="fas fa-star"></i>
-				<div class="preview-card">
-					<img src="https://screenshot.xranks.com/voirfilms.bz-0ece68c3781734c10e7959f4d3ad234df118dc5f4fe21c1e56851da841e114cf.webp" alt="Monstream">
-					<h3>Monstream</h3>
-					<p>Films & TVSeries</p>
-				</div>
-			</div>
+        <div class="footer-icon" onclick="window.location.href='https://miller-movie.bolt.host/'">
+            <i class="fas fa-star"></i>
+            <div class="preview-card">
+                <img src="https://screenshot.xranks.com/blueseries.net-475729065744ea783c236b222e5bee1ddf83960f93826a763b6c67d3d1aa5d8e.webp" alt="Miller Movie">
+                <h3>Miller Movie</h3>
+                <p>Films & Séries TV</p>
+            </div>
+        </div>
 
-			<div class="footer-icon" onclick="window.location.href='https://miller-movie.bolt.host/'">
-				<i class="fas fa-star"></i>
-				<div class="preview-card">
-					<img src="https://screenshot.xranks.com/blueseries.net-475729065744ea783c236b222e5bee1ddf83960f93826a763b6c67d3d1aa5d8e.webp" alt="Miller Movie">
-					<h3>Miller Movie</h3>
-					<p>Films & TVSeries</p>
-				</div>
-			</div>
+        <div class="footer-icon" onclick="window.location.href='https://cpasbien.net.im/'">
+            <i class="fas fa-star"></i>
+            <div class="preview-card">
+                <img src="https://screenshot.xranks.com/cpasmieux.site-8088d3b35e9d35a3b8b2a581844213e8c76f1d5a1096eba0a7ec12881df65b79.webp" alt="Cpasbien">
+                <h3>Cpasbien</h3>
+                <p>Films & Séries TV (Torrents)</p>
+            </div>
+        </div>
 
-			<div class="footer-icon" onclick="window.location.href='https://cpasbien.net.im/'">
-				<i class="fas fa-star"></i>
-				<div class="preview-card">
-					<img src="https://screenshot.xranks.com/cpasmieux.site-8088d3b35e9d35a3b8b2a581844213e8c76f1d5a1096eba0a7ec12881df65b79.webp" alt="Cpasbien">
-					<h3>Cpasbien</h3>
-					<p>Films & TVSeries</p>
-				</div>
-			</div>
+        <div class="footer-icon" onclick="window.location.href='https://www.dulourd.boo/'">
+            <i class="fas fa-star"></i>
+            <div class="preview-card">
+                <img src="https://screenshot.xranks.com/dulourd.org-9cf79bf416f27f92a886bae5c2753b28a9fbf3f06647f36e7ef7a3aae80e725e.webp" alt="DuLourd">
+                <h3>DuLourd</h3>
+                <p>Séries TV</p>
+            </div>
+        </div>
 
-			<div class="footer-icon" onclick="window.location.href='https://www.dulourd.boo/'">
-				<i class="fas fa-star"></i>
-				<div class="preview-card">
-					<img src="https://screenshot.xranks.com/dulourd.org-9cf79bf416f27f92a886bae5c2753b28a9fbf3f06647f36e7ef7a3aae80e725e.webp" alt="DuLourd">
-					<h3>DuLourd</h3>
-					<p>TVSeries</p>
-				</div>
-			</div>
+        <div class="footer-icon" onclick="window.location.href='https://www.miwav.com/'">
+            <i class="fas fa-star"></i>
+            <div class="preview-card">
+                <img src="https://billetto.imgix.net/8epf7e67u0w74l3i4hvqyrjardk3?w=1440&h=810&fit=crop&auto=compress%2Cformat&rect=245%2C109%2C1255%2C706&s=c930e3f6593e511cb076e91ddb978137" alt="Miwav">
+                <h3>Miwav</h3>
+                <p>Films & Séries TV</p>
+            </div>
+        </div>
+    </footer>
 
-			<div class="footer-icon" onclick="window.location.href='https://www.miwav.com/'">
-				<i class="fas fa-star"></i>
-				<div class="preview-card">
-					<img src="https://billetto.imgix.net/8epf7e67u0w74l3i4hvqyrjardk3?w=1440&h=810&fit=crop&auto=compress%2Cformat&rect=245%2C109%2C1255%2C706&s=c930e3f6593e511cb076e91ddb978137" alt="Miwav">
-					<h3>Miwav</h3>
-					<p>Films & TVSeries</p>
-				</div>
-			</div>
-		</footer>
+    <!-- Three.js Script -->
+    <script type="module">
+        import * as THREE from 'three';
+        import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+        import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+        import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
 
-	</body>
+        const canvas = document.getElementById('three-canvas');
+        const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(window.devicePixelRatio);
 
-	</html>
-	<script src="./script.js"></script>
+        const scene = new THREE.Scene();
+
+        const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.z = 300;
+
+        // Particules 3D néon
+        const particleCount = 8000;
+        const positions = new Float32Array(particleCount * 3);
+        const colors = new Float32Array(particleCount * 3);
+
+        for (let i = 0; i < particleCount; i++) {
+            positions[i * 3]     = (Math.random() - 0.5) * 1000;
+            positions[i * 3 + 1] = (Math.random() - 0.5) * 1000;
+            positions[i * 3 + 2] = (Math.random() - 0.5) * 1000;
+
+            const color = Math.random() > 0.5 ? 0x00ffff : 0xff00ff;
+            colors[i * 3]     = (color >> 16) / 255;
+            colors[i * 3 + 1] = (color >> 8 & 0xff) / 255;
+            colors[i * 3 + 2] = (color & 0xff) / 255;
+        }
+
+        const geometry = new THREE.BufferGeometry();
+        geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+        geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+        const material = new THREE.PointsMaterial({
+            size: 3,
+            vertexColors: true,
+            blending: THREE.AdditiveBlending,
+            transparent: true,
+            depthWrite: false
+        });
+
+        const particles = new THREE.Points(geometry, material);
+        scene.add(particles);
+
+        // Post-processing Bloom
+        const composer = new EffectComposer(renderer);
+        composer.addPass(new RenderPass(scene, camera));
+
+        const bloomPass = new UnrealBloomPass(
+            new THREE.Vector2(window.innerWidth, window.innerHeight),
+            1.4,  // strength
+            0.5,  // radius
+            0.1   // threshold
+        );
+        composer.addPass(bloomPass);
+
+        // Animation
+        const clock = new THREE.Clock();
+
+        function animate() {
+            const elapsed = clock.getElapsedTime();
+
+            particles.rotation.y = elapsed * 0.03;
+            particles.rotation.x = elapsed * 0.015;
+
+            composer.render();
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        // Réaction à la souris
+        document.addEventListener('mousemove', (e) => {
+            const x = (e.clientX / window.innerWidth - 0.5) * 40;
+            const y = (e.clientY / window.innerHeight - 0.5) * 40;
+            particles.rotation.x += y * 0.00005;
+            particles.rotation.y += x * 0.00005;
+        });
+
+        // Resize
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            composer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        // Menu hamburger
+        const hamburger = document.getElementById('hamburger');
+        const rightMenu = document.getElementById('rightMenu');
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            rightMenu.classList.toggle('active');
+        });
+    </script>
 
 </body>
-
-</html>
-    <script  src="./script.js"></script>
-
-  </body>
-  
 </html>
