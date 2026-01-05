@@ -1,0 +1,144 @@
+<html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Bienvenue dans le futur</title>
+	<link rel="stylesheet" href="./style.css">
+
+</head>
+
+<body>
+	<html>
+	<html lang="fr">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Landing Page Futuriste</title>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+		<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
+	</head>
+
+	<body>
+
+		<!-- Menu gauche -->
+		<nav class="left-menu">
+			<ul>
+				<li><a href="#"><i class="fas fa-home"></i><span>Accueil</span></a></li>
+				<li><a href="#"><i class="fas fa-user"></i><span>Profil</span></a></li>
+				<li><a href="#"><i class="fas fa-cog"></i><span>Paramètres</span></a></li>
+				<li><a href="#"><i class="fas fa-envelope"></i><span>Contact</span></a></li>
+			</ul>
+		</nav>
+
+		<!-- Burger menu droit -->
+		<header>
+			<div class="hamburger" id="hamburger">
+				<span></span>
+				<span></span>
+				<span></span>
+			</div>
+		</header>
+
+		<!-- Menu droit -->
+		<nav class="right-menu" id="rightMenu">
+			<ul>
+				<li><a href="https://codepen.io/opxamx/pen/raLxJKZ">
+						<h3>FRANCAIS</h3>Films & TVSeries
+					</a></li>
+				<li><a href="https://codepen.io/opxamx/pen/ogLbqpz">
+						<h3>ENGLISH</h3>Movie & TVShows
+					</a></li>
+				<li><a href="https://codepen.io/opxamx/pen/jErWzZX">
+						<h3>LIVE.TV</h3>Boxing & UFC
+					</a></li>
+				<!--		<li><a href="#">Section 4</a></li> -->
+			</ul>
+		</nav>
+
+		<main>
+			<h1>STREAMING IN ENGLISH</h1>
+			<p>
+			<h2>3 STREAMING SITE IN ENGLISH</h2>
+			</p>
+			<p>By Alain Miller</p>
+		</main>
+
+		<!-- Footer avec cartes au hover -->
+		<footer>
+			<div class="footer-icon" onclick="window.location.href='https://bingewatch.to'">
+				<i class="fas fa-star"></i>
+				<div class="preview-card">
+					<img src="https://" alt="Binge-Watch">
+					<h3>Binge-Watch</h3>
+					<p>Movie & TVShows</p>
+				</div>
+			</div>
+
+			<!--
+			<div class="footer-icon" onclick="window.location.href='https://www.papadustream.rip'">
+				<i class="fas fa-star"></i>
+				<div class="preview-card">
+					<img src="https://" alt="Papadustream">
+					<h3>Papadustream</h3>
+					<p>Movie & TVShows</p>
+				</div>
+			</div>
+-->
+
+			<div class="footer-icon" onclick="window.location.href='https://ww4.fmovies.co/'">
+				<i class="fas fa-star"></i>
+				<div class="preview-card">
+					<img src="https://" alt="Fmovies">
+					<h3>Fmovies</h3>
+					<p>Movie & TVShows</p>
+				</div>
+			</div>
+
+			<div class="footer-icon" onclick="window.location.href='https://frembed.life'">
+				<i class="fas fa-star"></i>
+				<div class="preview-card">
+					<img src="https://" alt="Frembed">
+					<h3>Frembed</h3>
+					<p>Movie & TVShows</p>
+				</div>
+			</div>
+			<!--
+			<div class="footer-icon" onclick="window.location.href='https://cpasbien.net.im/'">
+				<i class="fas fa-star"></i>
+				<div class="preview-card">
+					<img src="https://" alt="Cpasbien">
+					<h3>Cpasbien</h3>
+					<p>Movie & TVShows</p>
+				</div>
+			</div>
+
+			<div class="footer-icon" onclick="window.location.href='https://www.dulourd.boo/'">
+				<i class="fas fa-star"></i>
+				<div class="preview-card">
+					<img src="https://" alt="DuLourd">
+					<h3>DuLourd</h3>
+					<p>Movie & TVShows</p>
+				</div>
+			</div>
+
+			<div class="footer-icon" onclick="window.location.href='https://www.miwav.com/'">
+				<i class="fas fa-star"></i>
+				<div class="preview-card">
+					<img src="https://" alt="Miwav">
+					<h3>Miwav</h3>
+					<p>Movie & TVShows</p>
+				</div>
+			</div>
+-->
+		</footer>
+
+	</body>
+
+	</html>
+	<script src="./script.js"></script>
+
+</body>
+
+</html>
